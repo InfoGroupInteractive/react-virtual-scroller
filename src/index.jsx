@@ -277,7 +277,7 @@ class Scroller extends Component {
 	}
 
 	fixHorizontalScrollbar() {
-        if(this.isUmnounted){
+        if(this.isUnmounted){
             return;
         } else {
 		    this.horizontalScrollerNode = this.horizontalScrollerNode || React.findDOMNode(this).querySelector('.z-horizontal-scroller');
