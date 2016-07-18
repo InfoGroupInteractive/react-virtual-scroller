@@ -3,6 +3,7 @@
 import Component from 'react-class'
 
 const React      = require('react')
+const ReactDOM      = require('react-dom')
 const LoadMask   = require('react-load-mask')
 const assign     = require('object-assign')
 const DragHelper = require('drag-helper')
@@ -280,10 +281,16 @@ class Scroller extends Component {
 	}
 
 	fixHorizontalScrollbar() {
+        const thisNode = ReactDOM.findDOMNode(this);
+
+        if (!thisNode) {
+            return;
+        }
+
         if(this.isUnmounted){
             return;
         } else {
-		    this.horizontalScrollerNode = this.horizontalScrollerNode || React.findDOMNode(this).querySelector('.z-horizontal-scroller');
+            this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller');
         }
 
 		var dom = this.horizontalScrollerNode
@@ -296,11 +303,11 @@ class Scroller extends Component {
 	}
 
 	getVerticalScrollbarNode(){
-		return this.verticalScrollbarNode = this.verticalScrollbarNode || React.findDOMNode(this).querySelector('.ref-verticalScrollbar')
+        return this.verticalScrollbarNode = this.verticalScrollbarNode || ReactDOM.findDOMNode(this).querySelector('.ref-verticalScrollbar')
 	}
 
 	getHorizontalScrollbarNode(){
-		return this.horizontalScrollbarNode = this.horizontalScrollbarNode || React.findDOMNode(this).querySelector('.ref-horizontalScrollbar')
+        return this.horizontalScrollbarNode = this.horizontalScrollbarNode || ReactDOM.findDOMNode(this).querySelector('.ref-horizontalScrollbar')
 	}
 
 	componentWillUnmount(){
