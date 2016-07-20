@@ -171,10 +171,12 @@ class Scroller extends Component {
 	}
 
 	prepareRenderProps(props) {
-		var renderProps = assign({}, props)
-
-		delete renderProps.height
-		delete renderProps.width
+		/* eslint-disable no-unused-vars */
+		// Remove prop before being applied to DOM Node
+		// As of React v15.2.1 - Unknown props issue warning
+		const { width, height, loadMask, loading, normalizeStyles, scrollTop, scrollLeft, scrollWidth,
+				scrollHeight, minScrollStep, minHorizontalScrollStep, minVerticalScrollStep, virtualRendering,
+				preventDefaultVertical, preventDefaultHorizontal, scrollbarSize, onVerticalScroll, onHorizontalScroll, ...renderProps } = props
 
 		return renderProps
 	}
@@ -347,7 +349,7 @@ class Scroller extends Component {
 		var style    = horizontalScrollbarStyle
 		var minWidth = props.scrollWidth
 
-		var scroller = <div xref="horizontalScroller" className="z-horizontal-scroller" style={{width: minWidth}} />
+		var scroller = <div className="z-horizontal-scroller" style={{width: minWidth}} />
 
 		if (IS_MAC){
 		    //needed for mac safari
