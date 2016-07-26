@@ -283,25 +283,21 @@ class Scroller extends Component {
 	}
 
 	fixHorizontalScrollbar() {
-        const thisNode = ReactDOM.findDOMNode(this);
+        var thisNode;
 
-        if (!thisNode) {
+        if (this.isUnmounted || !(thisNode = ReactDOM.findDOMNode(this))) {
             return;
         }
 
-        if(this.isUnmounted){
-            return;
-        } else {
-            this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller');
+        this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller');
+
+        var dom = this.horizontalScrollerNode
+
+        if (dom){
+            var height = dom.style.height
+
+            dom.style.height = height == '0.2px'? '0.1px': '0.2px'
         }
-
-		var dom = this.horizontalScrollerNode
-
-		if (dom){
-			var height = dom.style.height
-
-			dom.style.height = height == '0.2px'? '0.1px': '0.2px'
-		}
 	}
 
 	getVerticalScrollbarNode(){
