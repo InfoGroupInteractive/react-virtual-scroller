@@ -283,9 +283,13 @@ class Scroller extends Component {
 	}
 
 	fixHorizontalScrollbar() {
-        var thisNode;
+        if (this.isUnmounted) {
+            return;
+        }
 
-        if (this.isUnmounted || !(thisNode = ReactDOM.findDOMNode(this))) {
+        var thisNode = ReactDOM.findDOMNode(this);
+
+        if (!thisNode) {
             return;
         }
 
