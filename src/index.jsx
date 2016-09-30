@@ -3,6 +3,7 @@
 import Component from 'react-class'
 
 const React      = require('react')
+const ReactDOM      = require('react-dom')
 const LoadMask   = require('react-load-mask')
 const assign     = require('object-assign')
 const DragHelper = require('drag-helper')
@@ -170,10 +171,12 @@ class Scroller extends Component {
 	}
 
 	prepareRenderProps(props) {
-		var renderProps = assign({}, props)
-
-		delete renderProps.height
-		delete renderProps.width
+		/* eslint-disable no-unused-vars */
+		// Remove prop before being applied to DOM Node
+		// As of React v15.2.1 - Unknown props issue warning
+		const { width, height, loadMask, loading, normalizeStyles, scrollTop, scrollLeft, scrollWidth,
+				scrollHeight, minScrollStep, minHorizontalScrollStep, minVerticalScrollStep, virtualRendering,
+				preventDefaultVertical, preventDefaultHorizontal, scrollbarSize, onVerticalScroll, onHorizontalScroll, ...renderProps } = props
 
 		return renderProps
 	}
@@ -280,27 +283,33 @@ class Scroller extends Component {
 	}
 
 	fixHorizontalScrollbar() {
-        if(this.isUnmounted){
+        if (this.isUnmounted) {
             return;
-        } else {
-		    this.horizontalScrollerNode = this.horizontalScrollerNode || React.findDOMNode(this).querySelector('.z-horizontal-scroller');
         }
 
-		var dom = this.horizontalScrollerNode
+        var thisNode = ReactDOM.findDOMNode(this);
 
-		if (dom){
-			var height = dom.style.height
+        if (!thisNode) {
+            return;
+        }
 
-			dom.style.height = height == '0.2px'? '0.1px': '0.2px'
-		}
+        this.horizontalScrollerNode = this.horizontalScrollerNode || thisNode.querySelector('.z-horizontal-scroller');
+
+        var dom = this.horizontalScrollerNode
+
+        if (dom){
+            var height = dom.style.height
+
+            dom.style.height = height == '0.2px'? '0.1px': '0.2px'
+        }
 	}
 
 	getVerticalScrollbarNode(){
-		return this.verticalScrollbarNode = this.verticalScrollbarNode || React.findDOMNode(this).querySelector('.ref-verticalScrollbar')
+        return this.verticalScrollbarNode = this.verticalScrollbarNode || ReactDOM.findDOMNode(this).querySelector('.ref-verticalScrollbar')
 	}
 
 	getHorizontalScrollbarNode(){
-		return this.horizontalScrollbarNode = this.horizontalScrollbarNode || React.findDOMNode(this).querySelector('.ref-horizontalScrollbar')
+        return this.horizontalScrollbarNode = this.horizontalScrollbarNode || ReactDOM.findDOMNode(this).querySelector('.ref-horizontalScrollbar')
 	}
 
 	componentWillUnmount(){
@@ -340,7 +349,7 @@ class Scroller extends Component {
 		var style    = horizontalScrollbarStyle
 		var minWidth = props.scrollWidth
 
-		var scroller = <div xref="horizontalScroller" className="z-horizontal-scroller" style={{width: minWidth}} />
+		var scroller = <div className="z-horizontal-scroller" style={{width: minWidth}} />
 
 		if (IS_MAC){
 		    //needed for mac safari
