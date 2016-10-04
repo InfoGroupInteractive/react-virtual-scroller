@@ -297,10 +297,8 @@ class Scroller extends Component {
 
         var dom = this.horizontalScrollerNode
 
-        if (dom){
-            var height = dom.style.height
-
-            dom.style.height = height == '0.2px'? '0.1px': '0.2px'
+        if (dom) {
+            dom.style.height = '1px';
         }
 	}
 
